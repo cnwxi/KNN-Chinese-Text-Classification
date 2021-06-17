@@ -8,9 +8,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from myknn import KNN
 from tqdm import tqdm
-from alive_progress import alive_bar
-
-howMany = 1000  # 小于23800,训练集大小
+from sklearn.model_selection import GridSearchCV
 
 
 def parse_line_to_sample(perLine: str) -> Dict:
@@ -46,10 +44,8 @@ print('-----------------------------')
 stopwords = []
 with open('stop_words.utf8', encoding="utf-8") as sf:
     readlines = sf.readlines()
-    with alive_bar(len(readlines)) as bar:
-        for line in readlines:
-            stopwords.append(line.strip())
-            bar()
+    for line in readlines:
+        stopwords.append(line.strip())
 
 
 # stopwords = [line.strip() for line in open('stop_words.utf8', encoding="utf-8").readlines()]  # 加载停用词
@@ -79,9 +75,7 @@ def pre_process_sample(perSample: Dict) -> Dict:
 print("数据处理，去除停用词标点符号，并使用jieba进行分词后用空格连接")
 print('-----------------------------')
 processed_corpus = []
-# with alive_bar(len(corpus)) as bar:
 for i in tqdm(corpus):
-    bar()
     processed_corpus.append(pre_process_sample(i))
 
 # processed_corpus = [pre_process_sample(s) for s in corpus]
@@ -101,13 +95,7 @@ print('-----------------------------')
 print("划分数据集")
 print('-----------------------------')
 test_x, train_x, test_y, train_y = train_test_split(x_data, y_data, test_size=0.7, random_state=42)
-if howMany > 23800:
-    howMany = 23800
 
-train_x = train_x[:howMany]
-train_y = train_y[:howMany]
-test_x = test_x[:(howMany * 3 // 10)]
-test_y = test_y[:(howMany * 3 // 10)]
 print("训练集大小")
 print('-----------------------------')
 print(len(train_y))
@@ -143,7 +131,6 @@ for i in range(3):
 # dis = np.linalg.norm(tmp1 - tmp2) # np中计算欧式距离
 # print(dis)
 
-
 print('-----------------------------')
 print('分类')
 print('-----------------------------')
@@ -156,8 +143,12 @@ print('-----------------------------')
 """KNN"""
 # print('KNN')
 # print('-----------------------------')
-# clf = KNeighborsClassifier()
-
+# clf = KNeighborsClassifier(125)
+# param_grid = [{'n_neighbors': list(range(100, 200))}]
+# grid_search = GridSearchCV(clf, param_grid, cv=3,
+#                            scoring='f1_macro')
+# grid_search.fit(features, train_y)
+# print("the best params：", grid_search.best_params_)
 
 # print("训练")
 # print('-----------------------------')
@@ -166,10 +157,8 @@ print('-----------------------------')
 # print('-----------------------------')
 # y_pred = []
 # index = 0
-# for i in test:
-#     index += 1
+# for i in tqdm(test):
 #     tmp_pred = clf.predict(i)
-#     print(index, tmp_pred)
 #     y_pred.append(tmp_pred)
 
 '''我的KNN'''
@@ -180,7 +169,7 @@ print('-----------------------------')
 y_pred = []
 
 for i in tqdm(test):
-    pred = KNN(features.toarray(), train_y, i, 50)
+    pred = KNN(features.toarray(), train_y, i, 100)
     y_pred.append(pred)
 
 """性能指标"""
