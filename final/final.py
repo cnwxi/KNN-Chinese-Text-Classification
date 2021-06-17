@@ -8,7 +8,6 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from myknn import KNN
 from tqdm import tqdm
-from alive_progress import alive_bar
 
 howMany = 1000  # 小于23800,训练集大小
 
@@ -46,10 +45,8 @@ print('-----------------------------')
 stopwords = []
 with open('stop_words.utf8', encoding="utf-8") as sf:
     readlines = sf.readlines()
-    with alive_bar(len(readlines)) as bar:
-        for line in readlines:
-            stopwords.append(line.strip())
-            bar()
+    for line in tqdm(readlines):
+        stopwords.append(line.strip())
 
 
 # stopwords = [line.strip() for line in open('stop_words.utf8', encoding="utf-8").readlines()]  # 加载停用词
@@ -81,7 +78,7 @@ print('-----------------------------')
 processed_corpus = []
 # with alive_bar(len(corpus)) as bar:
 for i in tqdm(corpus):
-    bar()
+    # bar()
     processed_corpus.append(pre_process_sample(i))
 
 # processed_corpus = [pre_process_sample(s) for s in corpus]
