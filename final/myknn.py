@@ -2,9 +2,6 @@ import numpy as np
 from collections import Counter
 
 
-# 输入训练向量matTest，训练标签y_train，测试向量matTest，测试标签y_test
-# 返回预测准确率，positive准确率，negtative准确率
-
 def KNN(matTrain, y_train, matTest, k=50):
     numTrain = matTrain.shape[0]
     numTest = matTest.shape[0]
