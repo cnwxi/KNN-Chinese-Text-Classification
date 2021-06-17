@@ -1,0 +1,9 @@
+Collecting kashgari
+  Using cached kashgari-2.0.1-py3-none-any.whl (86 kB)
+Collecting bert4keras>=0.9.1
+  Using cached bert4keras-0.10.6.tar.gz (48 kB)
+Requirement already satisfied: scikit-learn>=0.21.1 in c:\users\17234\appdata\roaming\python\python38\site-packages (from kashgari) (0.24.2)
+Requirement already satisfied: pandas>=1.0.1 in c:\users\17234\appdata\local\programs\python\python38\lib\site-packages (from kashgari) (1.1.5)
+Requirement already satisfied: gensim>=3.8.1 in c:\users\17234\appdata\local\programs\python\python38\lib\site-packages (from kashgari) (4.0.1)
+Collecting tensorflow>=2.1.0
+  Downloading tensorflow-2.5.0-cp38-cp38-win_amd64.whl (422.6 MB)
